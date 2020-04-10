@@ -1,2 +1,4 @@
 # learning_python
-This is for learning python for a bioinformatics class at UC Davis. 
+
+This is for a bioinformatics progamming class at University of California, Davis.
+
