@@ -11,7 +11,6 @@
 import sys
 import random
 
-
 assert(len(sys.argv) == 3)
 bins = int(sys.argv[1])
 x    = float(sys.argv[2])
@@ -39,7 +38,7 @@ print(f'Max: {max}')
 print(f'Counts:')
 for i in range(len(hist)):
 	print(i, hist[i])
-
+	
 """
 python3 xcoverage.py 1000 5
 Size: 1000
