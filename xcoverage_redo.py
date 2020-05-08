@@ -8,6 +8,38 @@
 #	python3 xcoverage.py <genome size> <x>
 
 
+import sys
+import random
+
+
+assert(len(sys.argv) == 3)
+bins = int(sys.argv[1])
+x    = float(sys.argv[2])
+assert(bins > 0)
+assert(x > 0)
+
+bacs = int(bins * x)
+genome = [0] * bins
+for i in range(bacs):
+	r = random.randint(0, bins-1)
+	genome[r] += 1
+genome.sort()
+min = genome[0]
+max = genome[-1]
+
+hist = [0] * (max + 1)
+for v in genome:
+	hist[v] += 1	
+
+print(f'Size: {bins}')
+print(f'X: {x}')
+print(f'BACs: {bacs}')
+print(f'Min: {min}')
+print(f'Max: {max}')
+print(f'Counts:')
+for i in range(len(hist)):
+	print(i, hist[i])
+
 """
 python3 xcoverage.py 1000 5
 Size: 1000
