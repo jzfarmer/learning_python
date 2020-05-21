@@ -3,6 +3,7 @@
 import sys
 import gzip
 import random
+import math
 
 def read_fasta(filename):
 	name = None
@@ -30,7 +31,8 @@ def read_fasta(filename):
 			seqs.append(line)
 	yield(name, ''.join(seqs))
 	fp.close()
-
+	
+# percent gc content
 def gc(seq):
 	count = 0
 	for nt in seq:
@@ -38,6 +40,7 @@ def gc(seq):
 			count += 1
 	return count / len(seq)
 
+# generation of a random sequence
 def randseq(l, gc):
 	dna = []
 	for i in range(l):
@@ -52,6 +55,7 @@ def randseq(l, gc):
 			else: dna.append('A')
 	return ''.join(dna)
 
+# kdh values
 def kdh(aa):
 	if   aa == 'A': return 1.8
 	elif aa == 'C': return 2.5
@@ -74,7 +78,8 @@ def kdh(aa):
 	elif aa == 'W': return -0.9
 	elif aa == 'Y': return -1.3
 	else: return 0
-
+	
+# gc skew of a sequence
 def skew(seq):
 	g = 0
 	c = 0
@@ -85,8 +90,41 @@ def skew(seq):
 			c +=1
 	return (g - c)/(g + c)
 	
-	
-	
+# shannon entropy	
+def entropy(seq):
+	prob = [0]*4
+	for nt in seq:
+		if nt == 'A': prob[0] += 1
+		elif nt == 'C': prob[1] += 1
+		elif nt == 'G': prob[2] += 1
+		elif nt == 'T': prob[3] += 1
+		else: return None		
+	h = 0
+	for p in prob:
+		if p == 0: h += 0
+		else:
+			h += (-p/len(seq)) * math.log2(p/len(seq))	
+	return h	
+
+# amino acid dictionary
+gcode = {
+	'AAA' : 'K',	'AAC' : 'N',	'AAG' : 'K',	'AAT' : 'N',
+	'ACA' : 'T',	'ACC' : 'T',	'ACG' : 'T',	'ACT' : 'T',
+	'AGA' : 'R',	'AGC' : 'S',	'AGG' : 'R',	'AGT' : 'S',
+	'ATA' : 'I',	'ATC' : 'I',	'ATG' : 'M',	'ATT' : 'I',
+	'CAA' : 'Q',	'CAC' : 'H',	'CAG' : 'Q',	'CAT' : 'H',
+	'CCA' : 'P',	'CCC' : 'P',	'CCG' : 'P',	'CCT' : 'P',
+	'CGA' : 'R',	'CGC' : 'R',	'CGG' : 'R',	'CGT' : 'R',
+	'CTA' : 'L',	'CTC' : 'L',	'CTG' : 'L',	'CTT' : 'L',
+	'GAA' : 'E',	'GAC' : 'D',	'GAG' : 'E',	'GAT' : 'D',
+	'GCA' : 'A',	'GCC' : 'A',	'GCG' : 'A',	'GCT' : 'A',
+	'GGA' : 'G',	'GGC' : 'G',	'GGG' : 'G',	'GGT' : 'G',
+	'GTA' : 'V',	'GTC' : 'V',	'GTG' : 'V',	'GTT' : 'V',
+	'TAA' : '*',	'TAC' : 'Y',	'TAG' : '*',	'TAT' : 'Y',
+	'TCA' : 'S',	'TCC' : 'S',	'TCG' : 'S',	'TCT' : 'S',
+	'TGA' : '*',	'TGC' : 'C',	'TGG' : 'W',	'TGT' : 'C',
+	'TTA' : 'L',	'TTC' : 'F',	'TTG' : 'L',	'TTT' : 'F',
+}
 	
 	
 	
