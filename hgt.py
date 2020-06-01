@@ -1,5 +1,4 @@
 # final project for MCB185 
-# compare codon usage from different genomes to determine horizontal gene transfer
 # Compare codon usage by Kullback-Leibler distance
 # K-L distance = sum pi*log2*(pi/qi)
 # compare every gene to average codon usage in the genome
