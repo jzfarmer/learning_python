@@ -27,8 +27,6 @@ def kl_distance(p, q):
 total_counts = {}
 sum = 0
 for name, seq in biotools.read_fasta(arg.file):
-
-
 	for i in range(0,len(seq), 3):
 		codon = seq[i:i+3]
 		sum += 1
